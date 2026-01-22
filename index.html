@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Simple Chatbot</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f2f2f2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .chat-container {
+        width: 350px;
+        height: 500px;
+        background: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .chat-header {
+        background: #4CAF50;
+        color: white;
+        padding: 15px;
+        text-align: center;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .chat-box {
+        flex: 1;
+        padding: 10px;
+        overflow-y: auto;
+    }
+
+    .message {
+        margin: 8px 0;
+        padding: 10px;
+        border-radius: 8px;
+        max-width: 80%;
+        font-size: 14px;
+    }
+
+    .user {
+        background: #DCF8C6;
+        align-self: flex-end;
+    }
+
+    .bot {
+        background: #EAEAEA;
+        align-self: flex-start;
+    }
+
+    .chat-input {
+        display: flex;
+        border-top: 1px solid #ddd;
+    }
+
+    .chat-input input {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        outline: none;
+        font-size: 14px;
+    }
+
+    .chat-input button {
+        background: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        cursor: pointer;
+    }
+
+    .chat-input button:hover {
+        background: #45a049;
+    }
+</style>
+</head>
+<body>
+
+<div class="chat-container">
+    <div class="chat-header">Chatbot</div>
+    <div class="chat-box" id="chatBox">
+        <div class="message bot">Hello! How can I help you?</div>
+    </div>
+    <div class="chat-input">
+        <input type="text" id="userInput" placeholder="Type a message..." />
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<script>
+    function sendMessage() {
+        const input = document.getElementById("userInput");
+        const message = input.value.trim();
+        if (message === "") return;
+
+        addMessage(message, "user");
+        input.value = "";
+
+        setTimeout(() => {
+            const reply = botReply(message);
+            addMessage(reply, "bot");
+        }, 500);
+    }
+
+    function addMessage(text, sender) {
+        const chatBox = document.getElementById("chatBox");
+        const msg = document.createElement("div");
+        msg.className = "message " + sender;
+        msg.innerText = text;
+        chatBox.appendChild(msg);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function botReply(message) {
+        message = message.toLowerCase();
+
+        if (message.includes("hello") || message.includes("hi")) {
+            return "Hi there! 😊";
+        } else if (message.includes("how are you")) {
+            return "I'm just a bot, but I'm doing great!";
+        } else if (message.includes("your name")) {
+            return "I'm a simple JavaScript chatbot.";
+        } else if (message.includes("bye")) {
+            return "Goodbye! Have a nice day 👋";
+        } else {
+            return "Sorry, I don't understand that yet.";
+        }
+    }
+
+    // Send message on Enter key
+    document.getElementById("userInput").addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+            sendMessage();
+        }
+    });
+</script>
+
+</body>
+</html>
